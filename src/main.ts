@@ -1,6 +1,6 @@
-import { analytics } from "./modules/analytics.js";
+import { analytics } from './modules/analytics.js';
 
-const message: string = "Hello node!";
+const message = 'Hello node!';
 console.log(message);
 
-analytics("test!");
+analytics('test!');

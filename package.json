@@ -20,6 +20,7 @@
   "author": "Di ren",
   "devDependencies": {
     "@types/node": "^18.15.12",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
     "husky": "^8.0.3",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
