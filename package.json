@@ -1,0 +1,30 @@
+{
+  "name": "ts-express-seq",
+  "version": "1.0.0",
+  "description": "express + ts + sequelize",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npx nodemon",
+    "build": "rimraf /build && npx tsc",
+    "start": "npm run build && node build/main",
+    "lint": "npx eslint ./src",
+    "format": "npx eslint ./src --fix"
+  },
+  "keywords": [
+    "express",
+    "ts",
+    "sequelize",
+    "postgresql"
+  ],
+  "author": "Di ren",
+  "devDependencies": {
+    "@types/node": "^18.15.12",
+    "husky": "^8.0.3",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
