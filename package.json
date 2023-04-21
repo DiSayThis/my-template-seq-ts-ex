@@ -1,31 +1,68 @@
 {
-  "name": "ts-express-seq",
-  "version": "1.0.0",
-  "description": "express + ts + sequelize",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "npx nodemon",
-    "build": "rimraf /build && npx tsc",
-    "start": "npm run build && node build/main",
-    "lint": "npx eslint ./src",
-    "format": "npx eslint ./src --fix"
-  },
-  "keywords": [
-    "express",
-    "ts",
-    "sequelize",
-    "postgresql"
-  ],
-  "author": "Di ren",
-  "devDependencies": {
-    "@types/node": "^18.15.12",
-    "@typescript-eslint/eslint-plugin": "^5.59.0",
-    "husky": "^8.0.3",
-    "nodemon": "^2.0.22",
-    "prettier": "^2.8.7",
-    "rimraf": "^5.0.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
-  }
+	"name": "ts-express-seq",
+	"version": "1.0.0",
+	"description": "express + ts + sequelize",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "npx nodemon",
+		"build": "rimraf /build && npx tsc",
+		"start": "npm run build && node build/index",
+		"lint": "npx eslint ./src",
+		"lint:fix": "npx eslint ./src --fix",
+		"lint:format": "prettier -c .",
+		"lint:format-fix": "prettier --write .",
+		"lint:all": "npm run lint:format && npm run lint ",
+		"lint:all-fix": " npm run lint:format-fix && npm run lint:fix",
+		"lint:staged": "npx lint-staged",
+		"husky:addLint": "npx husky add .husky/pre-commit 'npx tsc --pretty --noEmit && npx lint-staged'",
+		"prepare": "husky install && npm run husky:addLint"
+	},
+	"keywords": [
+		"express",
+		"ts",
+		"sequelize",
+		"postgresql"
+	],
+	"author": "Di ren",
+	"devDependencies": {
+		"@types/bcryptjs": "^2.4.2",
+		"@types/config": "^3.3.0",
+		"@types/cors": "^2.8.13",
+		"@types/express": "^4.17.17",
+		"@types/express-fileupload": "^1.4.1",
+		"@types/morgan": "^1.9.4",
+		"@types/multer": "^1.4.7",
+		"@types/node": "^18.15.12",
+		"@types/sequelize": "^4.28.14",
+		"@typescript-eslint/eslint-plugin": "^5.59.0",
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.20.2",
+		"cors": "^2.8.5",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-json": "^3.1.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"express-fileupload": "^1.4.0",
+		"husky": "^8.0.3",
+		"jsonwebtoken": "^9.0.0",
+		"nodemon": "^2.0.22",
+		"passport": "^0.6.0",
+		"passport-jwt": "^4.0.1",
+		"pg": "^8.10.0",
+		"pg-hstore": "^2.3.4",
+		"prettier": "^2.8.7",
+		"rimraf": "^5.0.0",
+		"sequelize": "^6.31.0",
+		"sequelize-cli": "^6.6.0",
+		"sequelize-to-json": "^0.10.4",
+		"ts-node": "^10.9.1",
+		"typescript": "^5.0.4"
+	},
+	"dependencies": {
+		"config": "^3.3.9",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"morgan": "^1.10.0",
+		"multer": "^1.4.5-lts.1"
+	}
 }
