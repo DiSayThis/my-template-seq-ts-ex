@@ -5,18 +5,16 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"dev": "npx nodemon",
 		"build": "rimraf /build && npx tsc",
-		"start": "npm run build && node build/index",
+		"start": "npm run build && cross-env NODE_ENV=production node build/index",
+		"dev": "cross-env NODE_ENV=development npx nodemon",
 		"lint": "npx eslint ./src",
 		"lint:fix": "npx eslint ./src --fix",
 		"lint:format": "prettier -c .",
 		"lint:format-fix": "prettier --write .",
 		"lint:all": "npm run lint:format && npm run lint ",
 		"lint:all-fix": " npm run lint:format-fix && npm run lint:fix",
-		"lint:staged": "npx lint-staged",
-		"husky:addLint": "npx husky add .husky/pre-commit 'npx tsc --pretty --noEmit && npx lint-staged'",
-		"prepare": "husky install && npm run husky:addLint"
+		"lint:staged": "npx lint-staged"
 	},
 	"keywords": [
 		"express",
@@ -60,6 +58,7 @@
 	},
 	"dependencies": {
 		"config": "^3.3.9",
+		"cross-env": "^7.0.3",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"morgan": "^1.10.0",

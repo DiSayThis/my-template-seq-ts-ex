@@ -11,5 +11,5 @@ export interface IUser {
 
 	createdAt: Date;
 	updatedAt: Date;
-	deletedAt?: Date;
+	deletedAt?: Date | null;
 }

@@ -7,16 +7,16 @@ const firstUser = async () => {
 	if (!all.length) {
 		const password = bcrypt.hashSync('admin', bcrypt.genSaltSync(10));
 		const root: CreateUserDTO = {
-			login: 'admin',
+			login: 'root',
 			password: password,
-			firstName: 'admin',
-			lastName: 'admin',
+			firstName: 'root',
+			lastName: 'root',
 			phoneOS: '000000',
 			phoneMGTS: '000000',
 			position: 'root',
 		};
 		create(root).then((user) => console.log(`${user.login} пользователь создан`));
-	} else console.log(`admin не создан`);
+	} else console.log(`root не создан`);
 };
 
 export default firstUser;

@@ -1,9 +1,10 @@
-import { User } from './models/index.js';
+import { Sequelize } from 'sequelize';
+import config from '../config/database.js';
 
-const force = false;
-const alter = process.env.NODE_ENV === 'development' || process.env.NODE_ENV !== 'test';
-const options = { alter, force };
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+const dbConfig = isDev ? config.development : config.production;
+console.log(process.env.NODE_ENV, process.env.NODE_ENV === 'development', process.env.NODE_ENV === 'test');
 
-const dbInit = () => Promise.all([User.sync(options)]);
+const sequelizeConnection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
 
-export default dbInit;
+export default sequelizeConnection;

@@ -1,13 +1,14 @@
 import { User } from '../models/index.js';
 import { IGetAllUsersFilters } from './types.js';
 import { IUserInput, IUserOutput } from '../models/user.js';
+import { Op } from 'sequelize';
 
 export const create = async (payload: IUserInput): Promise<IUserOutput> => {
 	const user = await User.create(payload);
 	return user;
 };
 
-export const update = async (id: number, payload: Partial<IUserInput>): Promise<IUserOutput> => {
+export const update = async (id: string, payload: Partial<IUserInput>): Promise<IUserOutput> => {
 	const user = await User.findByPk(id);
 	if (!user) {
 		throw new Error('not found');
@@ -16,7 +17,7 @@ export const update = async (id: number, payload: Partial<IUserInput>): Promise<
 	return updatedUser;
 };
 
-export const getById = async (id: number): Promise<IUserOutput> => {
+export const getById = async (id: string): Promise<IUserOutput> => {
 	const user = await User.findByPk(id);
 	if (!user) {
 		throw new Error('not found');
@@ -24,7 +25,7 @@ export const getById = async (id: number): Promise<IUserOutput> => {
 	return user;
 };
 
-export const deleteById = async (id: number): Promise<boolean> => {
+export const deleteById = async (id: string): Promise<boolean> => {
 	const deletedUserCount = await User.destroy({
 		where: { id },
 	});
@@ -33,6 +34,7 @@ export const deleteById = async (id: number): Promise<boolean> => {
 
 export const getAll = async (filters?: IGetAllUsersFilters): Promise<IUserOutput[]> => {
 	return User.findAll({
-		where: { ...((filters?.isDeleted || filters?.includeDeleted) && { paranoid: true }) },
+		where: filters?.isDeleted ? { deletedAt: { [Op.not]: null } } : {},
+		paranoid: !(filters?.isDeleted || filters?.includeDeleted),
 	});
 };

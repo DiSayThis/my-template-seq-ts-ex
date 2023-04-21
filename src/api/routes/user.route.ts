@@ -5,20 +5,20 @@ import { CreateUserDTO, FilterUserDTO, UpdateUserDTO } from '../dto/user.dto.js'
 const userRouter = Router();
 
 userRouter.get(':/id', async (req: Request, res: Response) => {
-	const id = Number(req.params.id);
+	const id = req.params.id;
 	const result = await userController.getById(id);
 	return res.status(200).send(result);
 });
 
 userRouter.put('/:id', async (req: Request, res: Response) => {
-	const id = Number(req.params.id);
+	const id = req.params.id;
 	const payload: UpdateUserDTO = req.body;
 	const result = await userController.updateUser(id, payload);
 	return res.status(201).send(result);
 });
 
 userRouter.delete('/:id', async (req: Request, res: Response) => {
-	const id = Number(req.params.id);
+	const id = req.params.id;
 	const result = await userController.deleteById(id);
 	return res.status(204).send({
 		success: result,

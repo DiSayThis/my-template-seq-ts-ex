@@ -1,5 +1,5 @@
 import { DataTypes, Model, UUID, Optional } from 'sequelize';
-import sequelizeConnection from '../config.js';
+import sequelizeConnection from '../init.js';
 
 export interface IUserAttributes {
 	id: string;
@@ -14,7 +14,7 @@ export interface IUserAttributes {
 
 	createdAt?: Date;
 	updatedAt?: Date;
-	deletedAt?: Date;
+	deletedAt?: Date | null;
 }
 
 export interface IUserInput extends Optional<IUserAttributes, 'id'> {}
@@ -79,8 +79,6 @@ User.init(
 		sequelize: sequelizeConnection,
 		paranoid: true,
 		modelName: 'User',
-		getterMethods: {},
-		setterMethods: {},
 	},
 );
 

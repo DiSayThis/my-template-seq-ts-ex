@@ -7,15 +7,15 @@ export const create = async (payload: CreateUserDTO): Promise<IUser> => {
 	return mapper.toUser(await service.create(payload));
 };
 
-export const updateUser = async (id: number, payload: UpdateUserDTO): Promise<IUser> => {
+export const updateUser = async (id: string, payload: UpdateUserDTO): Promise<IUser> => {
 	return mapper.toUser(await service.update(id, payload));
 };
 
-export const getById = async (id: number): Promise<IUser> => {
+export const getById = async (id: string): Promise<IUser> => {
 	return mapper.toUser(await service.getById(id));
 };
 
-export const deleteById = async (id: number): Promise<boolean> => {
+export const deleteById = async (id: string): Promise<boolean> => {
 	const isDeleted = await service.deleteById(id);
 	return isDeleted;
 };
