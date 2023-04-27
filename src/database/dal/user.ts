@@ -25,6 +25,16 @@ export const getById = async (id: string): Promise<IUserOutput> => {
 	return user;
 };
 
+export const getOneByLogin = async (login: string): Promise<IUserOutput> => {
+	const user = await User.findOne({ where: { login: login } }).catch((e) => {
+		throw new Error('not found');
+	});
+	if (!user) {
+		throw new Error('not found');
+	}
+	return user;
+};
+
 export const deleteById = async (id: string): Promise<boolean> => {
 	const deletedUserCount = await User.destroy({
 		where: { id },

@@ -3,7 +3,6 @@ import config from '../config/database.js';
 
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 const dbConfig = isDev ? config.development : config.production;
-console.log(process.env.NODE_ENV, process.env.NODE_ENV === 'development', process.env.NODE_ENV === 'test');
 
 const sequelizeConnection = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig);
 

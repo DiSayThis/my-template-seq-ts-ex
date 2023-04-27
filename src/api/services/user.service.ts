@@ -11,6 +11,9 @@ export const update = (id: string, payload: Partial<IUserInput>): Promise<IUserO
 export const getById = (id: string): Promise<IUserOutput> => {
 	return userDal.getById(id);
 };
+export const getByLogin = (login: string): Promise<IUserOutput> => {
+	return userDal.getOneByLogin(login);
+};
 export const deleteById = (id: string): Promise<boolean> => {
 	return userDal.deleteById(id);
 };

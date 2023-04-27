@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
-import { create, getAll } from '../api/controllers/user/user.controller.js';
+import { create as createUser, getAll as getAllUsers } from '../api/controllers/user/user.controller.js';
+import { create as createMenuItem } from '../api/controllers/menu/menu.controller.js';
 import { CreateUserDTO } from '../api/dto/user.dto.js';
 
 const firstUser = async () => {
-	const all = await getAll({});
+	const all = await getAllUsers({});
 	if (!all.length) {
 		const password = bcrypt.hashSync('admin', bcrypt.genSaltSync(10));
 		const root: CreateUserDTO = {
@@ -15,7 +16,9 @@ const firstUser = async () => {
 			phoneMGTS: '000000',
 			position: 'root',
 		};
-		create(root).then((user) => console.log(`${user.login} пользователь создан`));
+		createUser(root).then((user) => console.log(`${user.login} пользователь создан`));
+		createMenuItem({ title: 'Общая таблица', icon: 'MdZoomIn', link: '/table' });
+		createMenuItem({ title: 'Внести изменения', icon: 'MdZoomOut', link: '/edit' });
 	} else console.log(`root не создан`);
 };
 

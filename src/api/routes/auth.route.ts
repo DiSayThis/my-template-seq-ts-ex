@@ -1,9 +1,25 @@
-import { Router } from 'express';
-import { login, whoami, logout } from '../controllers/auth/auth.controller.js';
-const authRouter = Router();
+import { Request, Response, Router } from 'express';
+import { AuthUserDTO } from '../../api/dto/auth.dto.js';
+import * as authController from '../controllers/auth/auth.controller.js';
+import passportGuard from '../../api/middleware/passport.js';
 
-authRouter.post('/', login);
-authRouter.get('/', whoami);
-authRouter.get('/logout', logout);
+const authRouter = Router();
+const authGuard = passportGuard.authenticate('jwt', { session: false });
+
+authRouter.post('/', async (req: Request, res: Response) => {
+	const payload: AuthUserDTO = req.body;
+	const result = await authController.login(payload);
+	return res.status(200).send(result);
+});
+
+authRouter.get('/protected', authGuard, (req, res) => {
+	res.send("i'm protected");
+});
 
 export default authRouter;
+
+// userRouter.post('/', async (req: Request, res: Response) => {
+// 	const payload: CreateUserDTO = req.body;
+// 	const result = await userController.create(payload);
+// 	return res.status(200).send(result);
+// });
