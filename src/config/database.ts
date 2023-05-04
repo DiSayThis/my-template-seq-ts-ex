@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-interface IdbConfig {
+export interface IdbConfig {
 	username: string;
 	password: string;
 	host: string;
@@ -10,7 +10,7 @@ interface IdbConfig {
 	logging?: boolean;
 }
 
-interface ISequelizeConfig {
+export interface ISequelizeConfig {
 	development: IdbConfig;
 	test: IdbConfig;
 	production: IdbConfig;

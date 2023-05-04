@@ -31,7 +31,8 @@
 		"@types/express-fileupload": "^1.4.1",
 		"@types/morgan": "^1.9.4",
 		"@types/multer": "^1.4.7",
-		"@types/node": "^18.15.12",
+		"@types/node": "^18.16.3",
+		"@types/passport-jwt": "^3.0.8",
 		"@types/passport-local": "^1.0.35",
 		"@types/sequelize": "^4.28.14",
 		"@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -58,7 +59,6 @@
 		"typescript": "^5.0.4"
 	},
 	"dependencies": {
-		"@types/passport-jwt": "^3.0.8",
 		"config": "^3.3.9",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.0.3",

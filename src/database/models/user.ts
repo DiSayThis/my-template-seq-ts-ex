@@ -1,5 +1,24 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	Optional,
+	HasManyRemoveAssociationMixin,
+	HasManyCountAssociationsMixin,
+	HasManyGetAssociationsMixin,
+	HasManyHasAssociationMixin,
+	HasManyHasAssociationsMixin,
+	HasManyAddAssociationMixin,
+	HasManyAddAssociationsMixin,
+	HasManySetAssociationsMixin,
+	HasManyRemoveAssociationsMixin,
+	HasManyCreateAssociationMixin,
+	Association,
+	NonAttribute,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
+import Menu from './menu.js';
+import Division from './divisions.js';
 
 export interface IUserAttributes {
 	id: string;
@@ -10,6 +29,7 @@ export interface IUserAttributes {
 	thirdName?: string;
 	phoneOS?: string;
 	phoneMGTS?: string;
+	description?: string;
 	position?: string;
 
 	createdAt?: Date;
@@ -30,6 +50,7 @@ class User extends Model<IUserAttributes, IUserInput> {
 	public phoneOS!: string;
 	public phoneMGTS!: string;
 	public position!: string;
+	public description!: string;
 
 	// timestamps!
 	public readonly createdAt!: Date;
@@ -72,6 +93,9 @@ User.init(
 			type: DataTypes.STRING,
 		},
 		position: {
+			type: DataTypes.TEXT,
+		},
+		description: {
 			type: DataTypes.TEXT,
 		},
 	},

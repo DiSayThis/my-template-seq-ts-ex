@@ -1,6 +1,7 @@
 import { DataTypes, Model, UUID, Optional } from 'sequelize';
 import sequelizeConnection from '../init.js';
 import { TypeMaterialIconName } from '../../api/interfaces/icons.types.js';
+import User from './user.js';
 
 export interface IMenuAttributes {
 	id: string;

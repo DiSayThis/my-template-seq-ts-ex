@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { AuthUserDTO } from 'api/dto/auth.dto.js';
+import { AuthUserDTO } from '../../dto/auth.dto.js';
 import { getByLogin } from '../user/user.controller.js';
 
 export const login = async (payload: AuthUserDTO) => {

@@ -8,7 +8,7 @@
 		"resolveJsonModule": true,
 		"allowJs": true,
 		"sourceMap": true,
-		"outDir": "./build",
+		"outDir": "build",
 		"removeComments": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -16,11 +16,9 @@
 		"noImplicitAny": true,
 		"skipLibCheck": true,
 		"typeRoots": ["./types"],
-		"noEmit": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
-		"incremental": true,
-		"baseUrl": "./src/"
+		"baseUrl": "src"
 	},
 	"include": ["src/**/*", "**/*.ts"],
 	"exclude": ["node_modules"],
