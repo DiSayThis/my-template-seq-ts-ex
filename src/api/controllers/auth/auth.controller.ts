@@ -34,23 +34,3 @@ export const logout = async () => {
 export const whoami = async () => {
 	return {};
 };
-
-// router.post('/getToken', (req, res) => {
-//     if (!req.body.email || !req.body.password) {
-//       return res.status(401).send('no fields');
-//     }
-//     User.forge({ email: req.body.email }).fetch().then(result => {
-//       if (!result) {
-//         return res.status(400).send('user not found');
-//       }
-
-//       result.authenticate(req.body.password).then(user => {
-//         const payload = { id: user.id };
-//         const token = jwt.sign(payload, process.env.SECRET_OR_KEY);
-//         res.send(token);
-//       }).catch(err => {
-//         return res.status(401).send({ err });
-//       });
-//     });
-//   }
-// );

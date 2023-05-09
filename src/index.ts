@@ -10,7 +10,7 @@ dotenv.config();
 const isDev = process.env.NODE_ENV === 'development';
 
 // NOTE: Для затирания или мутации таблиц в бд
-const force = isDev && true;
+const force = isDev && false;
 const alter = isDev && false;
 
 const app = applyRoutes(applyMiddlewares(express()));
