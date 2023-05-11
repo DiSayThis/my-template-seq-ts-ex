@@ -15,7 +15,7 @@ const options = {
 passportGuard.use(
 	new JwtStrategy(options, async (jwt_payload, done) => {
 		try {
-			const user = await getById(jwt_payload.id);
+			const user = await getById(jwt_payload.userId);
 			if (user) return done(null, user);
 			return done(null, false, { message: 'Invalid user.' });
 		} catch (e) {

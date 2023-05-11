@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { AuthUserDTO } from '../../api/dto/auth.dto.js';
 import * as authController from '../controllers/auth/auth.controller.js';
 import passportGuard from '../../api/middleware/passport.js';
+import { log } from 'console';
 
 const authRouter = Router();
 const authGuard = passportGuard.authenticate('jwt', { session: false });
@@ -11,7 +12,10 @@ authRouter.post('/login', async (req: Request, res: Response) => {
 	await authController
 		.login(payload)
 		.then((result) => res.status(200).send(result))
-		.catch((e) => res.status(404).send(e));
+		.catch((e: Error) => {
+			console.log(e);
+			return res.status(401).send({ message: e.message });
+		});
 });
 
 authRouter.get('/protected', authGuard, (req, res) => {
