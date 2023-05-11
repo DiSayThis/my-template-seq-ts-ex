@@ -6,10 +6,12 @@ import passportGuard from '../../api/middleware/passport.js';
 const authRouter = Router();
 const authGuard = passportGuard.authenticate('jwt', { session: false });
 
-authRouter.post('/', async (req: Request, res: Response) => {
+authRouter.post('/login', async (req: Request, res: Response) => {
 	const payload: AuthUserDTO = req.body;
-	const result = await authController.login(payload);
-	return res.status(200).send(result);
+	await authController
+		.login(payload)
+		.then((result) => res.status(200).send(result))
+		.catch((e) => res.status(404).send(e));
 });
 
 authRouter.get('/protected', authGuard, (req, res) => {

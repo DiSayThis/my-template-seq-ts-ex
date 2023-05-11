@@ -6,7 +6,7 @@ import { CreateUserDTO } from '../api/dto/user.dto.js';
 const firstUser = async () => {
 	const all = await getAllUsers({});
 	if (!all.length) {
-		const password = bcrypt.hashSync('admin', bcrypt.genSaltSync(10));
+		const password = bcrypt.hashSync('123789456', bcrypt.genSaltSync(10));
 		const root: CreateUserDTO = {
 			login: 'root',
 			password: password,

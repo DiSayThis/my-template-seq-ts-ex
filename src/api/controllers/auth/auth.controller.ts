@@ -7,7 +7,6 @@ export const login = async (payload: AuthUserDTO) => {
 	const user = await getByLogin(payload.login);
 	if (user) {
 		const passwordResult = bcrypt.compareSync(payload.password, user.password);
-
 		if (passwordResult) {
 			const token = jwt.sign(
 				{
@@ -18,12 +17,13 @@ export const login = async (payload: AuthUserDTO) => {
 				{ expiresIn: '9h' },
 			);
 			return {
-				token: `Bearer ${token}`,
-				userId: user.id,
+				user: user,
+				isAdmin: true,
+				accessToken: `Bearer ${token}`,
+				refreshToken: `Bearer ${token}`,
 			};
 		}
 	}
-
 	throw new Error('Ошибка авторизации!');
 };
 
