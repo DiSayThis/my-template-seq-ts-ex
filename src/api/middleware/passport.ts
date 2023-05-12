@@ -6,6 +6,7 @@ const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
 const passportGuard = passport;
+export const passportAdminGuard = passport;
 
 const options = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,8 +16,22 @@ const options = {
 passportGuard.use(
 	new JwtStrategy(options, async (jwt_payload, done) => {
 		try {
-			const user = await getById(jwt_payload.userId);
+			const user = await getById(jwt_payload._id);
 			if (user) return done(null, user);
+
+			return done(null, false, { message: 'Invalid user.' });
+		} catch (e) {
+			console.log(e);
+		}
+	}),
+);
+
+passportAdminGuard.use(
+	new JwtStrategy(options, async (jwt_payload, done) => {
+		try {
+			const user = await getById(jwt_payload._id);
+			if (jwt_payload.isAdmin) return done(null, user);
+
 			return done(null, false, { message: 'Invalid user.' });
 		} catch (e) {
 			console.log(e);
