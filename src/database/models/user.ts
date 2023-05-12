@@ -1,24 +1,5 @@
-import {
-	DataTypes,
-	Model,
-	UUID,
-	Optional,
-	HasManyRemoveAssociationMixin,
-	HasManyCountAssociationsMixin,
-	HasManyGetAssociationsMixin,
-	HasManyHasAssociationMixin,
-	HasManyHasAssociationsMixin,
-	HasManyAddAssociationMixin,
-	HasManyAddAssociationsMixin,
-	HasManySetAssociationsMixin,
-	HasManyRemoveAssociationsMixin,
-	HasManyCreateAssociationMixin,
-	Association,
-	NonAttribute,
-} from 'sequelize';
+import { DataTypes, Model, UUID, Optional } from 'sequelize';
 import sequelizeConnection from '../init.js';
-import Menu from './menu.js';
-import Division from './divisions.js';
 
 export interface IUserAttributes {
 	id: string;
@@ -31,6 +12,7 @@ export interface IUserAttributes {
 	phoneMGTS?: string;
 	description?: string;
 	position?: string;
+	isAdmin?: boolean;
 
 	createdAt?: Date;
 	updatedAt?: Date;
@@ -51,6 +33,7 @@ class User extends Model<IUserAttributes, IUserInput> {
 	public phoneMGTS!: string;
 	public position!: string;
 	public description!: string;
+	public isAdmin!: boolean;
 
 	// timestamps!
 	public readonly createdAt!: Date;
@@ -97,6 +80,11 @@ User.init(
 		},
 		description: {
 			type: DataTypes.TEXT,
+		},
+		isAdmin: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
+			allowNull: false,
 		},
 	},
 	{

@@ -15,10 +15,11 @@ const firstUser = async () => {
 			phoneOS: '000000',
 			phoneMGTS: '000000',
 			position: 'root',
+			isAdmin: true,
 		};
 		createUser(root).then((user) => console.log(`${user.login} пользователь создан`));
-		createMenuItem({ title: 'Общая таблица', icon: 'MdZoomIn', link: '/table' });
-		createMenuItem({ title: 'Внести изменения', icon: 'MdZoomOut', link: '/edit' });
+		createMenuItem({ title: 'Реестр', icon: 'MdChromeReaderMode', link: '/products' });
+		createMenuItem({ title: 'Справочники', icon: 'MdTableView', link: '/manage/directory' });
 	} else console.log(`root не создан`);
 };
 

@@ -8,6 +8,7 @@ export interface IUser {
 	phoneOS?: string;
 	phoneMGTS?: string;
 	position?: string;
+	isAdmin?: boolean;
 
 	createdAt: Date;
 	updatedAt: Date;

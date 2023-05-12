@@ -9,6 +9,7 @@ export type CreateUserDTO = {
 	phoneOS?: string;
 	phoneMGTS?: string;
 	position?: string;
+	isAdmin?: boolean;
 };
 
 export type UpdateUserDTO = Optional<CreateUserDTO, 'login'>;

@@ -42,11 +42,9 @@ Executor.init(
 		},
 		shortName: {
 			type: DataTypes.STRING,
-			// allowNull: false,
 		},
 		description: {
 			type: DataTypes.TEXT,
-			// allowNull: false,
 		},
 		inn: {
 			type: DataTypes.STRING,

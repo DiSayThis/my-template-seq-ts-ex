@@ -11,6 +11,7 @@ export const toUser = (user: IUserOutput): IUser => {
 		thirdName: user.thirdName,
 		phoneOS: user.phoneOS,
 		phoneMGTS: user.phoneMGTS,
+		isAdmin: user.isAdmin,
 		position: user.position,
 		createdAt: user.createdAt,
 		updatedAt: user.updatedAt,

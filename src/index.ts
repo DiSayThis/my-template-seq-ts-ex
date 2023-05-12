@@ -14,7 +14,7 @@ const force = isDev && false;
 const alter = isDev && false;
 
 const app = applyRoutes(applyMiddlewares(express()));
-const port = process.env.PORT || 3010;
+const port = process.env.PORT || 4200;
 
 async function connectDb() {
 	await checkExistDb();
