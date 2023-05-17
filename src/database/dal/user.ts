@@ -1,10 +1,11 @@
-import { User } from '../models/index.js';
+import { User, Division } from '../models/index.js';
 import { IGetAllUsersFilters } from './types.js';
 import { IUserInput, IUserOutput } from '../models/user.js';
 import { Op } from 'sequelize';
 
 export const create = async (payload: IUserInput): Promise<IUserOutput> => {
 	const user = await User.create(payload);
+	// await Division.create({name:'УПВ НТС', shortName:'УПВ', description:'описание УПВ'});
 	return user;
 };
 
