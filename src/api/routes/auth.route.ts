@@ -12,11 +12,9 @@ authRouter.post('/login', async (req: Request, res: Response) => {
 	await authController
 		.login(payload)
 		.then((result) => {
-			console.log(result);
 			res.status(200).send(result);
 		})
 		.catch((e: Error) => {
-			console.log(e);
 			return res.status(401).send({ message: e.message });
 		});
 });
