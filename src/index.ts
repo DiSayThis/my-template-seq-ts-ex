@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import checkExistDb from './utils/checkExistDb.js';
 import firstUser from './utils/defaultRoot.js';
 import sequelizeConnection from './database/init.js';
+import os from 'os';
 dotenv.config();
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -18,10 +19,15 @@ const port = process.env.PORT || 4200;
 
 async function connectDb() {
 	await checkExistDb();
+
 	await sequelizeConnection
 		.sync({ alter, force })
 		.then(() => firstUser())
-		.then(() => app.listen(port, () => console.log(`Running on http://localhost:${port}`)))
+		.then(() =>
+			app.listen(port, () => {
+				console.log(`Running on http://localhost:${port}`);
+			}),
+		)
 		.catch((e: Error) => console.log('Unable to connect to the database:', e));
 }
 
