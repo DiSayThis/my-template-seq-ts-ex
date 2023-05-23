@@ -1,5 +1,11 @@
-
 export interface IClassificatorDivision {
+	data: IOutDivision[];
+	meta: {
+		totalRowCount: number;
+	};
+}
+
+export interface IOutDivision {
 	id: string;
 	name: string;
 	shortName: string;

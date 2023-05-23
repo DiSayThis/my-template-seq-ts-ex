@@ -1,11 +1,14 @@
-import { CreateDivisionDTO, FilterDivisionClassificator } from 'api/dto/classificator.dto.js';
-import { IClassificatorDivision } from 'api/interfaces/classificatorDivision.interface.js';
+import { CreateDivisionDTO, UrlParams } from 'api/dto/classificator.dto.js';
+import { IClassificatorDivision, IOutDivision } from 'api/interfaces/classificatorDivision.interface.js';
 import * as classificator from '../../../database/dal/classificator.js';
 
-export const getDivisionAll = async (filters: FilterDivisionClassificator): Promise<IClassificatorDivision[]> => {
-	return await classificator.getAllDivision(filters);
+export const getDivisionAll = async (params: UrlParams): Promise<IClassificatorDivision> => {
+	console.log(params);
+	const data = await classificator.getAllDivision(params);
+	const count = await classificator.getCount(params);
+	return { data, meta: { totalRowCount: count } };
 };
 
-export const DivisionCreate = async (filters: CreateDivisionDTO): Promise<IClassificatorDivision> => {
-	return await classificator.DivisionCreate(filters);
+export const DivisionCreate = async (params: CreateDivisionDTO): Promise<IOutDivision> => {
+	return await classificator.DivisionCreate(params);
 };
