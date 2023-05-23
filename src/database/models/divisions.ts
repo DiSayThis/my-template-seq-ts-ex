@@ -10,7 +10,6 @@ export interface IDivisionAttributes {
 	updatedAt?: Date;
 	deletedAt?: Date | null;
 }
-
 export interface IDivisionInput extends Optional<IDivisionAttributes, 'id'> {}
 export interface IDivisionOutput extends Required<IDivisionAttributes> {}
 
