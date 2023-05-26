@@ -10,7 +10,6 @@ export const login = async (payload: AuthUserDTO) => {
 	});
 	if (user) {
 		const passwordResult = bcrypt.compareSync(payload.password, user.password);
-		console.log(passwordResult, payload.password, user.password);
 		if (passwordResult) {
 			const tokens = await getTokens(user);
 			return tokens;
@@ -34,7 +33,6 @@ export const getNewToken = async ({ refreshToken }: IRefreshTokenBody) => {
 	if (!refreshToken) throw new Error('Пожалуйста авторизуйтесь');
 	const result: any = jwt.verify(refreshToken, process.env.JWT_SALT || 'secret');
 	if (!result) throw new Error('Токен неверен или истек');
-	console.log(result);
 	const user = await getById(result._id);
 	if (user) {
 		const tokens = getTokens(user);

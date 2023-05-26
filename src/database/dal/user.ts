@@ -20,7 +20,7 @@ export const update = async (id: string, payload: Partial<IUserInput>): Promise<
 
 export const getById = async (id: string): Promise<IUserOutput> => {
 	const user = await User.findByPk(id);
-	console.log(user);
+	// console.log(user);
 	if (!user) {
 		throw new Error('Not found');
 	}

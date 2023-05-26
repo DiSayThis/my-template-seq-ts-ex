@@ -16,7 +16,6 @@ export interface filtersParam {
 	value: string;
 }
 
-
 export interface sortingParam {
 	id: string;
 	desc: boolean;
@@ -27,4 +26,8 @@ export type CreateDivisionDTO = {
 	name: string;
 	shortName: string;
 	description?: string;
+};
+
+export type GetOneDivision = {
+	id?: string;
 };

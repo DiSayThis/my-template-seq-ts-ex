@@ -13,6 +13,10 @@ export interface IDivisionAttributes {
 export interface IDivisionInput extends Optional<IDivisionAttributes, 'id'> {}
 export interface IDivisionOutput extends Required<IDivisionAttributes> {}
 
+export interface IDivisionCountOutput {
+	rows: IDivisionOutput[];
+	count: number;
+}
 class Division extends Model<IDivisionAttributes, IDivisionInput> {
 	public id!: string;
 	public name!: string;
