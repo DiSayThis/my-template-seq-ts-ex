@@ -19,7 +19,7 @@ const firstUser = async () => {
 		};
 		createUser(root).then((user) => console.log(`${user.login} пользователь создан`));
 		createMenuItem({ title: 'Реестр', icon: 'MdChromeReaderMode', link: '/products' });
-		createMenuItem({ title: 'Справочники', icon: 'MdTableView', link: '/classificator/directory' });
+		createMenuItem({ title: 'Справочники', icon: 'MdTableView', link: '/manage/division' });
 	} else console.log(`root не создан`);
 };
 
