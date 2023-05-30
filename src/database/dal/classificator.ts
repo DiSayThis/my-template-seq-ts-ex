@@ -1,6 +1,6 @@
 import { filtersParam, GetOneDivision, sortingParam, UrlParams } from 'api/dto/classificator.dto.js';
 import { IDivisionCountOutput, IDivisionInput, IDivisionOutput } from 'database/models/divisions.js';
-import { Op } from 'sequelize';
+import { Op, Order } from 'sequelize';
 import { Division } from '../models/index.js';
 
 export const getAllDivision = async (params: UrlParams): Promise<IDivisionOutput[]> => {
@@ -42,8 +42,9 @@ export const getAllDivision = async (params: UrlParams): Promise<IDivisionOutput
 };
 
 export const getAllCountDivision = async (params: UrlParams): Promise<IDivisionCountOutput> => {
-	const filters: filtersParam[] = JSON.parse(params.filters || '[]');
-	const sortingSQL: sortingParam = JSON.parse(params.sorting || '')[0];
+	const filters: filtersParam[] = params?.filters ? JSON.parse(params.filters || '[]') : [];
+	const sortingSQL: sortingParam = params?.sorting ? JSON.parse(params.sorting || '')[0] : null;
+	const globalFilter: string = params.globalFilter ?? '';
 
 	let filterSQL = {};
 
@@ -54,14 +55,14 @@ export const getAllCountDivision = async (params: UrlParams): Promise<IDivisionC
 		};
 	});
 
-	if (params.globalFilter) {
+	if (globalFilter) {
 		filterSQL = {
 			[Op.and]: [
 				{
 					[Op.or]: [
-						{ name: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
-						{ shortName: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
-						{ description: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
+						{ name: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
+						{ shortName: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
+						{ description: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
 					],
 				},
 				{
@@ -71,13 +72,14 @@ export const getAllCountDivision = async (params: UrlParams): Promise<IDivisionC
 		};
 	}
 
-	return Division.findAndCountAll({
-		offset: JSON.parse(params.start || ''),
-		limit: JSON.parse(params.size || ''),
-		order: sortingSQL?.id && sortingSQL?.desc ? [[sortingSQL.id, sortingSQL.desc ? 'DESC' : 'ASC']] : [],
-		where: filters.length || params.globalFilter ? filterSQL : {},
-	});
+	const offset: number = params.start ? JSON.parse(params.start || '') : 0;
+	const limit: number = params.size ? JSON.parse(params.size || '') : 30;
+	const order: Order = sortingSQL && sortingSQL?.id ? [[sortingSQL.id, sortingSQL.desc ? 'DESC' : 'ASC']] : [];
+	const where = filters.length || globalFilter ? filterSQL : {};
+
+	return Division.findAndCountAll({ offset, limit, order, where });
 };
+
 export const getCount = async (params: UrlParams): Promise<number> => {
 	const filters: filtersParam[] = JSON.parse(params.filters || '[]');
 
