@@ -77,7 +77,10 @@ export const getAllCountDivision = async (params: UrlParams): Promise<IDivisionC
 	const order: Order = sortingSQL && sortingSQL?.id ? [[sortingSQL.id, sortingSQL.desc ? 'DESC' : 'ASC']] : [];
 	const where = filters.length || globalFilter ? filterSQL : {};
 
-	return Division.findAndCountAll({ offset, limit, order, where });
+	const result = Division.findAndCountAll({ offset, limit, order, where }).catch((e: Error) => {
+		throw new Error('Ошибка бд: ' + e.message);
+	});
+	return result;
 };
 
 export const getCount = async (params: UrlParams): Promise<number> => {
@@ -114,9 +117,12 @@ export const getCount = async (params: UrlParams): Promise<number> => {
 };
 
 export const DivisionCreate = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
-	const division = await Division.create(payload);
+	const division = await Division.create(payload).catch((e: Error) => {
+		throw new Error('Ошибка бд: ' + e.message);
+	});
 	return division;
 };
+
 export const DivisionGetOne = async (payload: GetOneDivision): Promise<IDivisionOutput> => {
 	const division = await Division.findByPk(payload.id).catch((e) => {
 		throw new Error('Ошибка бд');
@@ -128,14 +134,18 @@ export const DivisionGetOne = async (payload: GetOneDivision): Promise<IDivision
 };
 
 export const DivisionUpdate = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
-	const division = await Division.findByPk(payload.id);
+	const division = await Division.findByPk(payload.id).catch((e: Error) => {
+		throw new Error('Ошибка бд: ' + e.message);
+	});
 	if (division) {
 		division?.set({
 			name: payload.name,
 			shortName: payload.shortName,
 			description: payload.description,
 		});
-		division?.save();
+		await division.save().catch((e: Error) => {
+			throw new Error('Ошибка бд: ' + e.message);
+		});
 		return division;
-	} else throw new Error('Ошибка сохраенения!');
+	} else throw new Error('Ошибка: Такое подразделение не найдено!');
 };

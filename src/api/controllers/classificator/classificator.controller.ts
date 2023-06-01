@@ -18,7 +18,6 @@ export const DivisionCreate = async (params: CreateDivisionDTO): Promise<IOutDiv
 };
 
 export const DivisionGetOne = async (params: GetOneDivision): Promise<IOutDivision> => {
-	console.log(params);
 	return await classificator.DivisionGetOne(params);
 };
 

@@ -27,8 +27,6 @@ authRouter.post('/login/access-token', async (req: Request, res: Response) => {
 			res.status(200).send(result);
 		})
 		.catch((e) => {
-			console.log(e);
-
 			res.status(401).send(e);
 		});
 });
