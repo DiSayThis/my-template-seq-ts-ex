@@ -133,6 +133,17 @@ export const DivisionGetOne = async (payload: GetOneDivision): Promise<IDivision
 	return division;
 };
 
+export const DivisionDeleteOne = async (payload: GetOneDivision): Promise<void> => {
+	const division = await Division.findByPk(payload.id)
+		.then((result) => {
+			if (!result) throw new Error('Запись не найдена');
+			return result.destroy();
+		})
+		.catch((e) => {
+			throw new Error('Ошибка бд');
+		});
+};
+
 export const DivisionUpdate = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
 	const division = await Division.findByPk(payload.id).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);

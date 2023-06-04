@@ -1,11 +1,6 @@
-import {
-	CreateDivisionDTO,
-	FilterDivisionClassificator,
-	GetOneDivision,
-	UrlParams,
-} from 'api/dto/classificator.dto.js';
+import { CreateDivisionDTO, UrlParams } from 'api/dto/classificator.dto.js';
 import { Request, Response, Router } from 'express';
-import * as classificatorController from '../controllers/classificator/classificator.controller.js';
+import * as divisionController from '../controllers/classificator/division.controller.js';
 const divisionRouter = Router();
 
 // divisionRouter.get('/', async (req: Request, res: Response) => {
@@ -16,7 +11,7 @@ const divisionRouter = Router();
 
 divisionRouter.get('/', async (req: Request, res: Response) => {
 	const params: UrlParams = req.query;
-	const results = await classificatorController
+	const results = await divisionController
 		.getDivisionAllCount(params)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
@@ -25,7 +20,7 @@ divisionRouter.get('/', async (req: Request, res: Response) => {
 
 divisionRouter.post('/create', async (req: Request, res: Response) => {
 	const payload: CreateDivisionDTO = req.body;
-	return await classificatorController
+	return await divisionController
 		.DivisionCreate(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
@@ -33,15 +28,23 @@ divisionRouter.post('/create', async (req: Request, res: Response) => {
 
 divisionRouter.get('/:id', async (req: Request, res: Response) => {
 	const id = req.params;
-	return await classificatorController
+	return await divisionController
 		.DivisionGetOne(id)
+		.then((result) => res.status(200).send(result))
+		.catch((error: Error) => res.status(404).send(error.message));
+});
+
+divisionRouter.delete('/:id', async (req: Request, res: Response) => {
+	const id = req.params;
+	return await divisionController
+		.DivisionDeleteOne(id)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(404).send(error.message));
 });
 
 divisionRouter.put('/update', async (req: Request, res: Response) => {
 	const payload: CreateDivisionDTO = req.body;
-	return await classificatorController
+	return await divisionController
 		.DivisionUpdate(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));

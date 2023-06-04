@@ -18,8 +18,11 @@ const firstUser = async () => {
 			isAdmin: true,
 		};
 		createUser(root).then((user) => console.log(`${user.login} пользователь создан`));
-		createMenuItem({ title: 'Реестр', icon: 'MdChromeReaderMode', link: '/products' });
-		createMenuItem({ title: 'Справочники', icon: 'MdTableView', link: '/manage/division' });
+		createMenuItem({ title: 'Реестр единственных поставщиков', icon: 'MdChromeReaderMode', link: '/products' });
+		createMenuItem({ title: 'Подразделения', icon: 'MdShield', link: '/manage/division' });
+		createMenuItem({ title: 'Исполнители', icon: 'MdEngineering', link: '/manage/executer' });
+		createMenuItem({ title: 'Приказы', icon: 'MdDocumentScanner', link: '/manage/order' });
+		createMenuItem({ title: 'Перечень товаров, работ и услуг', icon: 'MdListAlt', link: '/manage/enumProducts' });
 	} else console.log(`root не создан`);
 };
 
