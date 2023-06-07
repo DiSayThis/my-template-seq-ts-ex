@@ -18,3 +18,8 @@ Product.belongsTo(EnumProduct);
 Product.belongsTo(Order);
 Product.belongsTo(Executor);
 export { User, Menu, Division, EnumProduct, Product, Order, Executor };
+
+export interface ICountOutput<T> {
+	rows: T[];
+	count: number;
+}

@@ -28,6 +28,6 @@ export type CreateDivisionDTO = {
 	description?: string;
 };
 
-export type GetOneDivision = {
+export type GetOneByIdType = {
 	id?: string;
 };

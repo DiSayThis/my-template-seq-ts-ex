@@ -1,9 +1,9 @@
-import { filtersParam, sortingParam, UrlParams } from 'api/dto/classificator.dto.js';
-import { IDivisionInput, IDivisionOutput } from 'database/models/divisions.js';
+import { filtersParam, GetOneByIdType, sortingParam, UrlParams } from 'api/dto/classificator.dto.js';
 import { Op, Order } from 'sequelize';
-import { Division, ICountOutput } from '../models/index.js';
+import { Executor, ICountOutput } from '../models/index.js';
+import { IExecutorOutput, IExecutorInput } from 'database/models/executor.js';
 
-export const getAll = async (params: UrlParams): Promise<IDivisionOutput[]> => {
+export const getAll = async (params: UrlParams): Promise<IExecutorOutput[]> => {
 	const filters: filtersParam[] = JSON.parse(params.filters || '[]');
 	const sortingSQL: sortingParam = JSON.parse(params.sorting || '')[0];
 
@@ -24,6 +24,7 @@ export const getAll = async (params: UrlParams): Promise<IDivisionOutput[]> => {
 						{ name: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 						{ shortName: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 						{ description: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
+						{ inn: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 					],
 				},
 				{
@@ -33,7 +34,7 @@ export const getAll = async (params: UrlParams): Promise<IDivisionOutput[]> => {
 		};
 	}
 
-	return Division.findAll({
+	return Executor.findAll({
 		offset: JSON.parse(params.start || ''),
 		limit: JSON.parse(params.size || ''),
 		order: sortingSQL?.id && sortingSQL?.desc ? [[sortingSQL.id, sortingSQL.desc ? 'DESC' : 'ASC']] : [],
@@ -41,7 +42,7 @@ export const getAll = async (params: UrlParams): Promise<IDivisionOutput[]> => {
 	});
 };
 
-export const getAllCount = async (params: UrlParams): Promise<ICountOutput<IDivisionOutput>> => {
+export const getAllCount = async (params: UrlParams): Promise<ICountOutput<IExecutorOutput>> => {
 	const filters: filtersParam[] = params?.filters ? JSON.parse(params.filters || '[]') : [];
 	const sortingSQL: sortingParam = params?.sorting ? JSON.parse(params.sorting || '')[0] : null;
 	const globalFilter: string = params.globalFilter ?? '';
@@ -63,6 +64,7 @@ export const getAllCount = async (params: UrlParams): Promise<ICountOutput<IDivi
 						{ name: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
 						{ shortName: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
 						{ description: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
+						{ inn: { [Op.iLike]: `%${globalFilter.replace(/\s+/g, '%')}%` } },
 					],
 				},
 				{
@@ -77,10 +79,9 @@ export const getAllCount = async (params: UrlParams): Promise<ICountOutput<IDivi
 	const order: Order = sortingSQL && sortingSQL?.id ? [[sortingSQL.id, sortingSQL.desc ? 'DESC' : 'ASC']] : [];
 	const where = filters.length || globalFilter ? filterSQL : {};
 
-	const result = Division.findAndCountAll({ offset, limit, order, where }).catch((e: Error) => {
+	const result = Executor.findAndCountAll({ offset, limit, order, where }).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);
 	});
-
 	return result;
 };
 
@@ -104,6 +105,7 @@ export const getCount = async (params: UrlParams): Promise<number> => {
 						{ name: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 						{ shortName: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 						{ description: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
+						{ inn: { [Op.iLike]: `%${params.globalFilter.replace(/\s+/g, '%')}%` } },
 					],
 				},
 				{
@@ -112,20 +114,20 @@ export const getCount = async (params: UrlParams): Promise<number> => {
 			],
 		};
 	}
-	return Division.count({
+	return Executor.count({
 		where: filters.length || params.globalFilter ? filterSQL : {},
 	});
 };
 
-export const create = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
-	const item = await Division.create(payload).catch((e: Error) => {
+export const create = async (payload: IExecutorInput): Promise<IExecutorOutput> => {
+	const result = await Executor.create(payload).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);
 	});
-	return item;
+	return result;
 };
 
-export const getOne = async (id: string): Promise<IDivisionOutput> => {
-	const item = await Division.findByPk(id).catch((e: Error) => {
+export const getOne = async (payload: GetOneByIdType): Promise<IExecutorOutput> => {
+	const item = await Executor.findByPk(payload.id).catch((e) => {
 		throw new Error('Ошибка бд: ' + e.message);
 	});
 	if (!item) {
@@ -134,8 +136,8 @@ export const getOne = async (id: string): Promise<IDivisionOutput> => {
 	return item;
 };
 
-export const deleteOne = async (id: string): Promise<void> => {
-	await Division.findByPk(id)
+export const deleteOne = async (payload: GetOneByIdType): Promise<void> => {
+	await Executor.findByPk(payload.id)
 		.then((result) => {
 			if (!result) throw new Error('Запись не найдена');
 			return result.destroy();
@@ -145,8 +147,8 @@ export const deleteOne = async (id: string): Promise<void> => {
 		});
 };
 
-export const update = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
-	const item = await Division.findByPk(payload.id).catch((e: Error) => {
+export const update = async (payload: IExecutorInput): Promise<IExecutorOutput> => {
+	const item = await Executor.findByPk(payload.id).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);
 	});
 	if (item) {

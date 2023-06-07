@@ -1,5 +1,5 @@
-export interface IClassificatorDivision {
-	data: IOutDivision[];
+export interface IClassificatorTable<T> {
+	data: T[];
 	meta: {
 		totalRowCount: number;
 	};
