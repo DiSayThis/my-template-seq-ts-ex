@@ -9,16 +9,27 @@ import Executor from './executor.js';
 Division.hasMany(User);
 User.belongsTo(Division);
 
-EnumProduct.hasMany(EnumProduct, { as: 'Children', foreignKey: 'parentId' });
-EnumProduct.belongsTo(EnumProduct);
-// EnumProduct.hasMany(Product);
-// Executor.hasMany(Product);
-// Order.hasMany(Product);
-// Order.belongsTo(Division);
+EnumProduct.belongsTo(EnumProduct, { as: 'Parent', foreignKey: 'parentId' });
+EnumProduct.hasMany(EnumProduct, { as: 'Child', foreignKey: 'parentId' });
 
-// Product.belongsTo(EnumProduct);
-// Product.belongsTo(Order);
-// Product.belongsTo(Executor);
+EnumProduct.hasMany(Product);
+Product.belongsTo(EnumProduct);
+
+Executor.hasMany(Product);
+Product.belongsTo(Executor);
+
+Order.hasMany(Product);
+Product.belongsTo(Order);
+
+Division.hasMany(Product);
+Product.belongsTo(Division);
+
+Division.hasMany(Order);
+Order.belongsTo(Division);
+
+Division.hasMany(User);
+User.belongsTo(Division);
+
 export { User, Menu, Division, EnumProduct, Product, Order, Executor };
 
 export interface ICountOutput<T> {

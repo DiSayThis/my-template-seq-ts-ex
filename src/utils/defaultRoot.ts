@@ -2,7 +2,8 @@ import bcrypt from 'bcryptjs';
 import { create as createUser, getAll as getAllUsers } from '../api/controllers/user/user.controller.js';
 import { create as createMenuItem } from '../api/controllers/menu/menu.controller.js';
 
-import { IUserInput } from 'database/models/user.js';
+import { IUserInput } from '../database/models/user.js';
+import EnumProduct from '../database/models/enumProduct.js';
 
 const firstUser = async () => {
 	const all = await getAllUsers({});
@@ -25,6 +26,10 @@ const firstUser = async () => {
 		])
 			.then(() => console.log(`Данные по умолчанию заведены`))
 			.catch((error) => console.log(error));
+
+		const one = await EnumProduct.create({ name: '111', num: '111' });
+		const two = await EnumProduct.create({ name: '222', num: '222' });
+		one.addChild(two);
 	} else console.log(`root уже существует`);
 };
 
