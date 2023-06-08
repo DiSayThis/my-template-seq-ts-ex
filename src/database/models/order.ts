@@ -1,34 +1,31 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	CreationOptional,
+	CreationAttributes,
+	Attributes,
+	InferAttributes,
+	InferCreationAttributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
-export interface IOrderAttributes {
-	id: string;
-	number: string;
-	signingPerson: string;
-	signingDate: Date;
-	endDate: Date;
-	description?: string;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+class Order extends Model<InferAttributes<Order>, InferCreationAttributes<Order>> {
+	declare id: CreationOptional<string>;
+	declare number: string;
+	declare endDate: Date;
+	declare signingDate: Date;
+	declare signingPerson: CreationOptional<string>;
+	declare description: CreationOptional<string>;
+
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
+export interface IOrderInput extends CreationAttributes<Order> {}
+export interface IOrderOutput extends Attributes<Order> {}
 
-export interface IOrderInput extends Optional<IOrderAttributes, 'id'> {}
-export interface IOrderOutput extends Required<IOrderAttributes> {}
-
-class Order extends Model<IOrderAttributes, IOrderInput> {
-	public id!: string;
-	public number!: string;
-	public signingDate!: Date;
-	public endDate!: Date;
-	public signingPerson!: string;
-	public description!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
 Order.init(
 	{
 		id: {
@@ -51,12 +48,13 @@ Order.init(
 		},
 		signingPerson: {
 			type: DataTypes.TEXT,
-			allowNull: false,
 		},
 		description: {
 			type: DataTypes.TEXT,
-			// allowNull: false,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

@@ -1,33 +1,34 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	CreationOptional,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationAttributes,
+	Attributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
 
-export interface IProductAttributes {
-	id: string;
-	name: string;
-	description?: string;
-	catalogNumber?: string;
-	catalogNumberDualUse?: string;
+class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> {
+	declare id: CreationOptional<string>;
+	declare name: string;
+	declare shortName: CreationOptional<string>;
+	declare catalogNumber: CreationOptional<string>;
+	declare catalogNumberDualUse: CreationOptional<string>;
+	declare description: CreationOptional<string>;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+	//Приказы
+
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
 
-export interface IProductInput extends Optional<IProductAttributes, 'id'> {}
-export interface IProductOutput extends Required<IProductAttributes> {}
+export interface IProductInput extends CreationAttributes<Product> {}
+export interface IProductOutput extends Attributes<Product> {}
 
-class Product extends Model<IProductAttributes, IProductInput> {
-	public id!: string;
-	public name!: string;
-	public description!: string;
-	public catalogNum!: string;
-	public catalogNumDualUse!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
 Product.init(
 	{
 		id: {
@@ -40,18 +41,21 @@ Product.init(
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+		shortName: {
+			type: DataTypes.STRING,
+		},
 		description: {
 			type: DataTypes.TEXT,
-			// allowNull: false,
 		},
 		catalogNumber: {
 			type: DataTypes.STRING,
-			// allowNull: false,
 		},
 		catalogNumberDualUse: {
 			type: DataTypes.STRING,
-			// allowNull: false,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

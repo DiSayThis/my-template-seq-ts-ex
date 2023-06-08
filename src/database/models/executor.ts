@@ -1,33 +1,30 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationOptional,
+	CreationAttributes,
+	Attributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
 
-export interface IExecutorAttributes {
-	id: string;
-	name: string;
-	shortName: string;
-	description?: string;
-	inn: string;
+class Executor extends Model<InferAttributes<Executor>, InferCreationAttributes<Executor>> {
+	declare id: CreationOptional<string>;
+	declare name: string;
+	declare shortName: string;
+	declare inn: string;
+	declare description: CreationOptional<string>;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
+export interface IExecutorInput extends CreationAttributes<Executor> {}
+export interface IExecutorOutput extends Attributes<Executor> {}
 
-export interface IExecutorInput extends Optional<IExecutorAttributes, 'id'> {}
-export interface IExecutorOutput extends Required<IExecutorAttributes> {}
-
-class Executor extends Model<IExecutorAttributes, IExecutorInput> {
-	public id!: string;
-	public name!: string;
-	public shortName!: string;
-	public description!: string;
-	public inn!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
 Executor.init(
 	{
 		id: {
@@ -50,6 +47,9 @@ Executor.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

@@ -1,31 +1,28 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	CreationOptional,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationAttributes,
+	Attributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
 
-export interface IEnumProductAttributes {
-	id: string;
-	num: string;
-	name: string;
-	description?: string;
+class EnumProduct extends Model<InferAttributes<EnumProduct>, InferCreationAttributes<EnumProduct>> {
+	declare id: CreationOptional<string>;
+	declare num: string;
+	declare name: string;
+	declare description: CreationOptional<string>;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
-
-export interface IEnumProductInput extends Optional<IEnumProductAttributes, 'id'> {}
-export interface IEnumProductOutput extends Required<IEnumProductAttributes> {}
-
-class EnumProduct extends Model<IEnumProductAttributes, IEnumProductInput> {
-	public id!: string;
-	public num!: string;
-	public name!: string;
-	public description!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
+export interface IEnumProductInput extends CreationAttributes<EnumProduct> {}
+export interface IEnumProductOutput extends Attributes<EnumProduct> {}
 
 EnumProduct.init(
 	{
@@ -45,8 +42,10 @@ EnumProduct.init(
 		},
 		description: {
 			type: DataTypes.TEXT,
-			// allowNull: false,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

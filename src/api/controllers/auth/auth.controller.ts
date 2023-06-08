@@ -31,6 +31,7 @@ interface IRefreshTokenBody {
 }
 export const getNewToken = async ({ refreshToken }: IRefreshTokenBody) => {
 	if (!refreshToken) throw new Error('Пожалуйста авторизуйтесь');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const result: any = jwt.verify(refreshToken, process.env.JWT_SALT || 'secret');
 	if (!result) throw new Error('Токен неверен или истек');
 	const user = await getById(result._id);

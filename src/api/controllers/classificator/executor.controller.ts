@@ -1,16 +1,18 @@
 import { GetOneByIdType, UrlParams } from 'api/dto/classificator.dto.js';
-import { IClassificatorTable } from 'api/interfaces/classificatorDivision.interface.js';
-import * as executor from '../../../database/dal/executor.js';
+import { IClassificatorTable } from 'interfaces/classificator.interface.js';
+import * as executor from '../../../database/dal/classificator/executor.js';
 import { IExecutorInput, IExecutorOutput } from 'database/models/executor.js';
+import { generateExecutorWhere } from 'utils/generateWhere.js';
 
 export const getAll = async (params: UrlParams): Promise<IClassificatorTable<IExecutorOutput>> => {
-	const data = await executor.getAll(params);
-	const count = await executor.getCount(params);
-	return { data, meta: { totalRowCount: count } };
+	const { where, order } = generateExecutorWhere(params);
+	const data = await executor.getAllCount({ where, order });
+	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 
 export const getAllCount = async (params: UrlParams): Promise<IClassificatorTable<IExecutorOutput>> => {
-	const data = await executor.getAllCount(params);
+	const queryParams = generateExecutorWhere(params);
+	const data = await executor.getAllCount(queryParams);
 	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 

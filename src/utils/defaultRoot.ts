@@ -1,29 +1,31 @@
 import bcrypt from 'bcryptjs';
 import { create as createUser, getAll as getAllUsers } from '../api/controllers/user/user.controller.js';
 import { create as createMenuItem } from '../api/controllers/menu/menu.controller.js';
-import { CreateUserDTO } from '../api/dto/user.dto.js';
+
+import { IUserInput } from 'database/models/user.js';
 
 const firstUser = async () => {
 	const all = await getAllUsers({});
 	if (!all.length) {
 		const password = bcrypt.hashSync('123789456', bcrypt.genSaltSync(10));
-		const root: CreateUserDTO = {
+		const root: IUserInput = {
 			login: 'root',
 			password: password,
 			firstName: 'root',
 			lastName: 'root',
-			phoneOS: '000000',
-			phoneMGTS: '000000',
-			position: 'root',
 			isAdmin: true,
 		};
-		createUser(root).then((user) => console.log(`${user.login} пользователь создан`));
-		createMenuItem({ title: 'Реестр единственных поставщиков', icon: 'MdChromeReaderMode', link: '/products' });
-		createMenuItem({ title: 'Подразделения', icon: 'MdShield', link: '/manage/division' });
-		createMenuItem({ title: 'Исполнители', icon: 'MdEngineering', link: '/manage/executor' });
-		createMenuItem({ title: 'Приказы', icon: 'MdDocumentScanner', link: '/manage/order' });
-		createMenuItem({ title: 'Перечень товаров, работ и услуг', icon: 'MdListAlt', link: '/manage/enumProducts' });
-	} else console.log(`root не создан`);
+		Promise.all([
+			createUser(root).then((user) => console.log(`${user.login} пользователь создан`)),
+			createMenuItem({ name: 'Реестр единственных поставщиков', icon: 'MdChromeReaderMode', link: '/products' }),
+			createMenuItem({ name: 'Подразделения', icon: 'MdShield', link: '/manage/division' }),
+			createMenuItem({ name: 'Исполнители', icon: 'MdEngineering', link: '/manage/executor' }),
+			createMenuItem({ name: 'Приказы', icon: 'MdDocumentScanner', link: '/manage/order' }),
+			createMenuItem({ name: 'Перечень товаров, работ и услуг', icon: 'MdListAlt', link: '/manage/enumProducts' }),
+		])
+			.then(() => console.log(`Данные по умолчанию заведены`))
+			.catch((error) => console.log(error));
+	} else console.log(`root уже существует`);
 };
 
 export default firstUser;

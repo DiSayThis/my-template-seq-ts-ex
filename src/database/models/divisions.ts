@@ -1,29 +1,28 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	CreationOptional,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationAttributes,
+	Attributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
 
-export interface IDivisionAttributes {
-	id: string;
-	name: string;
-	shortName: string;
-	description?: string;
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
-}
-export interface IDivisionInput extends Optional<IDivisionAttributes, 'id'> {}
-export interface IDivisionOutput extends Required<IDivisionAttributes> {}
+class Division extends Model<InferAttributes<Division>, InferCreationAttributes<Division>> {
+	declare id: CreationOptional<string>;
+	declare name: string;
+	declare shortName: string;
+	declare description: CreationOptional<string>;
 
-class Division extends Model<IDivisionAttributes, IDivisionInput> {
-	public id!: string;
-	public name!: string;
-	public shortName!: string;
-	public description!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
+export interface IDivisionInput extends CreationAttributes<Division> {}
+export interface IDivisionOutput extends Attributes<Division> {}
 
 Division.init(
 	{
@@ -42,8 +41,11 @@ Division.init(
 			allowNull: false,
 		},
 		description: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

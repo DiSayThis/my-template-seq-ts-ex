@@ -1,33 +1,29 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	CreationOptional,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationAttributes,
+	Attributes,
+} from 'sequelize';
 import sequelizeConnection from '../init.js';
-import { TypeMaterialIconName } from '../../api/interfaces/icons.types.js';
-import User from './user.js';
+import { TypeMaterialIconName } from '../../interfaces/icons.types.js';
 
-export interface IMenuAttributes {
-	id: string;
-	title: string;
-	icon: TypeMaterialIconName;
-	link: string;
+class Menu extends Model<InferAttributes<Menu>, InferCreationAttributes<Menu>> {
+	declare id: CreationOptional<string>;
+	declare name: string;
+	declare icon: TypeMaterialIconName;
+	declare link: string;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
 }
-
-export interface IMenuInput extends Optional<IMenuAttributes, 'id'> {}
-export interface IMenuOutput extends Required<IMenuAttributes> {}
-
-class Menu extends Model<IMenuAttributes, IMenuInput> {
-	public id!: string;
-	public title!: string;
-	public icon!: TypeMaterialIconName;
-	public link!: string;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
+export interface IMenuInput extends CreationAttributes<Menu> {}
+export interface IMenuOutput extends Attributes<Menu> {}
 
 Menu.init(
 	{
@@ -37,7 +33,7 @@ Menu.init(
 			defaultValue: DataTypes.UUIDV4,
 			allowNull: false,
 		},
-		title: {
+		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
@@ -50,6 +46,9 @@ Menu.init(
 			allowNull: false,
 			unique: true,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

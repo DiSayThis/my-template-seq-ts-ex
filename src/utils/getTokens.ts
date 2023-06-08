@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
-import { IUser } from 'api/interfaces/user.interface.js';
+import { IUserOutput } from 'database/models/user.js';
 
-export const getTokens = async (user: IUser) => {
+export const getTokens = async (user: IUserOutput) => {
+	console.log(user);
 	const userDataToken = {
-		_id: user.id,
+		_id: user.id.toString(),
 		login: user.login,
 		isAdmin: user.isAdmin,
 	};

@@ -1,33 +1,33 @@
-import { CreateDivisionDTO, UrlParams } from 'api/dto/classificator.dto.js';
-import { IClassificatorTable, IOutDivision } from 'api/interfaces/classificatorDivision.interface.js';
-import * as division from '../../../database/dal/division.js';
-import { IDivisionOutput } from 'database/models/divisions.js';
+import { UrlParams } from 'api/dto/classificator.dto.js';
+import * as division from '../../../database/dal/classificator/division.js';
+import { IDivisionInput, IDivisionOutput } from 'database/models/divisions.js';
+import { generateDivisionWhere } from '../../../utils/generateWhere.js';
+import { IClassificatorTable } from 'interfaces/classificator.interface.js';
 
-export const getDivisionAll = async (params: UrlParams): Promise<IClassificatorTable<IDivisionOutput>> => {
-	const data = await division.getAll(params);
-	const count = await division.getCount(params);
-	return { data, meta: { totalRowCount: count } };
-};
-
-export const getDivisionAllCount = async (params: UrlParams): Promise<IClassificatorTable<IDivisionOutput>> => {
-	const data = await division.getAllCount(params);
-	console.log(data);
-
+export const getAll = async (params: UrlParams): Promise<IClassificatorTable<IDivisionOutput>> => {
+	const { where, order } = generateDivisionWhere(params);
+	const data = await division.getAllCount({ where, order });
 	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 
-export const DivisionCreate = async (params: CreateDivisionDTO): Promise<IOutDivision> => {
-	return await division.create(params);
+export const getAllCount = async (params: UrlParams): Promise<IClassificatorTable<IDivisionOutput>> => {
+	const queryParams = generateDivisionWhere(params);
+	const data = await division.getAllCount(queryParams);
+	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 
-export const DivisionGetOne = async (id: string): Promise<IOutDivision> => {
+export const create = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
+	return await division.create(payload);
+};
+
+export const getOne = async (id: string): Promise<IDivisionOutput> => {
 	return await division.getOne(id);
 };
 
-export const DivisionDeleteOne = async (id: string): Promise<void> => {
+export const deleteOne = async (id: string): Promise<void> => {
 	return await division.deleteOne(id);
 };
 
-export const DivisionUpdate = async (params: CreateDivisionDTO): Promise<IOutDivision> => {
-	return await division.update(params);
+export const update = async (payload: IDivisionInput): Promise<IDivisionOutput> => {
+	return await division.update(payload);
 };

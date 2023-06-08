@@ -1,45 +1,55 @@
-import { DataTypes, Model, UUID, Optional } from 'sequelize';
+import {
+	DataTypes,
+	Model,
+	UUID,
+	InferAttributes,
+	InferCreationAttributes,
+	CreationOptional,
+	CreationAttributes,
+	Attributes,
+	BelongsToCreateAssociationMixin,
+	BelongsToSetAssociationMixin,
+	BelongsToGetAssociationMixin,
+	ForeignKey,
+	NonAttribute,
+	Association,
+} from 'sequelize';
+
 import sequelizeConnection from '../init.js';
+import Division from './divisions.js';
 
-export interface IUserAttributes {
-	id: string;
-	login: string;
-	password: string;
-	firstName: string;
-	lastName: string;
-	thirdName?: string;
-	phoneOS?: string;
-	phoneMGTS?: string;
-	description?: string;
-	position?: string;
-	isAdmin?: boolean;
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+	declare id: CreationOptional<string>;
+	declare login: string;
+	declare password: string;
+	declare firstName: string;
+	declare lastName: string;
+	declare thirdName: CreationOptional<string>;
+	declare phoneOS: CreationOptional<string>;
+	declare phoneMGTS: CreationOptional<string>;
+	declare position: CreationOptional<string>;
+	declare description: CreationOptional<string>;
+	declare isAdmin: CreationOptional<boolean>;
 
-	createdAt?: Date;
-	updatedAt?: Date;
-	deletedAt?: Date | null;
+	// timestamps
+	declare readonly createdAt: CreationOptional<Date>;
+	declare readonly updatedAt: CreationOptional<Date>;
+	declare readonly deletedAt: CreationOptional<Date>;
+
+	declare DivisionId: ForeignKey<Division['id']>;
+	declare getDivision: BelongsToGetAssociationMixin<Division>;
+	declare setDivision: BelongsToSetAssociationMixin<Division, Division['id']>;
+	declare createDivision: BelongsToCreateAssociationMixin<Division>;
+
+	declare division: NonAttribute<Division>;
+
+	declare static associations: {
+		division: Association<Division, User>;
+	};
 }
 
-export interface IUserInput extends Optional<IUserAttributes, 'id'> {}
-export interface IUserOutput extends Required<IUserAttributes> {}
-
-class User extends Model<IUserAttributes, IUserInput> {
-	public id!: string;
-	public login!: string;
-	public password!: string;
-	public firstName!: string;
-	public lastName!: string;
-	public thirdName!: string;
-	public phoneOS!: string;
-	public phoneMGTS!: string;
-	public position!: string;
-	public description!: string;
-	public isAdmin!: boolean;
-
-	// timestamps!
-	public readonly createdAt!: Date;
-	public readonly updatedAt!: Date;
-	public readonly deletedAt!: Date;
-}
+export interface IUserInput extends CreationAttributes<User> {}
+export interface IUserOutput extends Attributes<User> {}
 
 User.init(
 	{
@@ -86,6 +96,9 @@ User.init(
 			defaultValue: false,
 			allowNull: false,
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
+		deletedAt: DataTypes.DATE,
 	},
 	{
 		sequelize: sequelizeConnection,

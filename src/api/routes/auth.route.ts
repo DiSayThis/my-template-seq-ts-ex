@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { AuthUserDTO } from '../../api/dto/auth.dto.js';
 import * as authController from '../controllers/auth/auth.controller.js';
 import passportGuard, { passportAdminGuard } from '../../api/middleware/passport.js';
@@ -36,9 +36,3 @@ authRouter.get('/protected', adminGuard, (req, res) => {
 });
 
 export default authRouter;
-
-// userRouter.post('/', async (req: Request, res: Response) => {
-// 	const payload: CreateUserDTO = req.body;
-// 	const result = await userController.create(payload);
-// 	return res.status(200).send(result);
-// });
