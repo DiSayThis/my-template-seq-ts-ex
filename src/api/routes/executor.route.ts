@@ -1,13 +1,11 @@
-import { UrlParams } from '../../api/dto/classificator.dto.js';
+import { UrlParams } from 'api/dto/classificator.dto.js';
 import { Request, Response, Router } from 'express';
-import { generateController } from '../../api/controllers/classificator/universal.controller.js';
-import { generateExecutorWhere } from '../../utils/generateWhere.js';
-import Executor, { IExecutorInput } from '../../database/models/executor.js';
-const executerRouter = Router();
+import * as controller from '../controllers/classificator/executor.controller.js';
+import Executor from 'database/models/executor.js';
+import { CreationAttributes } from 'sequelize';
+const executorRouter = Router();
 
-const controller = generateController({ generateWhere: generateExecutorWhere, model: Executor });
-
-executerRouter.get('/', async (req: Request, res: Response) => {
+executorRouter.get('/', async (req: Request, res: Response) => {
 	const params: UrlParams = req.query;
 	const results = await controller
 		.getAllCount(params)
@@ -19,15 +17,15 @@ executerRouter.get('/', async (req: Request, res: Response) => {
 	return results;
 });
 
-executerRouter.post('/create', async (req: Request, res: Response) => {
-	const payload: IExecutorInput = req.body;
+executorRouter.post('/create', async (req: Request, res: Response) => {
+	const payload: CreationAttributes<Executor> = req.body;
 	return await controller
 		.create(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
 });
 
-executerRouter.get('/:id', async (req: Request, res: Response) => {
+executorRouter.get('/:id', async (req: Request, res: Response) => {
 	const id = req.params.id;
 	if (!id) {
 		return res.status(403).send('Ошибка неверный id');
@@ -38,7 +36,7 @@ executerRouter.get('/:id', async (req: Request, res: Response) => {
 			.catch((error: Error) => res.status(404).send(error.message));
 });
 
-executerRouter.delete('/:id', async (req: Request, res: Response) => {
+executorRouter.delete('/:id', async (req: Request, res: Response) => {
 	const id = req.params.id;
 	if (!id) {
 		return res.status(403).send('Ошибка неверный id');
@@ -49,12 +47,12 @@ executerRouter.delete('/:id', async (req: Request, res: Response) => {
 			.catch((error: Error) => res.status(404).send(error.message));
 });
 
-executerRouter.put('/update', async (req: Request, res: Response) => {
-	const payload: IExecutorInput = req.body;
+executorRouter.put('/update', async (req: Request, res: Response) => {
+	const payload: CreationAttributes<Executor> = req.body;
 	return await controller
 		.update(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
 });
 
-export default executerRouter;
+export default executorRouter;

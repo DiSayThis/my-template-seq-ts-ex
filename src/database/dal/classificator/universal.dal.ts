@@ -58,11 +58,7 @@ export const generateDAL = <M extends Model>(model: ModelStatic<M>) => ({
 			throw new Error('Ошибка бд: ' + e.message);
 		});
 		if (item) {
-			item?.set({
-				name: payload.name,
-				shortName: payload.shortName,
-				description: payload.description,
-			});
+			item?.set(payload);
 			await item.save().catch((e: Error) => {
 				throw new Error('Ошибка бд: ' + e.message);
 			});

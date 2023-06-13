@@ -44,3 +44,5 @@ export const generateDivisionWhere = (params: UrlParams) =>
 	generateWhereForTable(params, ['name', 'shortName', 'description']);
 export const generateOrderWhere = (params: UrlParams) =>
 	generateWhereForTable(params, ['number', 'endDate', 'signingDate', 'signingPerson', 'description']);
+export const generateEnumProductWhere = (params: UrlParams) =>
+	generateWhereForTable(params, ['number', 'name', 'description']);

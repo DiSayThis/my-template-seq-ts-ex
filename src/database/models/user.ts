@@ -43,6 +43,16 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
 	declare division: NonAttribute<Division>;
 
+	get getDivisionName(): NonAttribute<Promise<string>> {
+		return this.getDivision().then((res) => res.name);
+	}
+	get getDivisionShortName(): NonAttribute<Promise<string>> {
+		return this.getDivision().then((res) => res.shortName);
+	}
+	get getDivisionId(): NonAttribute<Promise<string>> {
+		return this.getDivision().then((res) => res.id);
+	}
+
 	declare static associations: {
 		division: Association<Division, User>;
 	};

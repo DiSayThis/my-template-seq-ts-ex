@@ -16,20 +16,24 @@ const firstUser = async () => {
 			lastName: 'root',
 			isAdmin: true,
 		};
+
+		const test = async () => {
+			//для теста связей
+			const one = await EnumProduct.create({ name: '111', number: '111' });
+			const two = await EnumProduct.create({ name: '222', number: '222' });
+			await one.addChild(two);
+		};
 		Promise.all([
 			createUser(root).then((user) => console.log(`${user.login} пользователь создан`)),
 			createMenuItem({ name: 'Реестр единственных поставщиков', icon: 'MdChromeReaderMode', link: '/products' }),
 			createMenuItem({ name: 'Подразделения', icon: 'MdShield', link: '/manage/division' }),
 			createMenuItem({ name: 'Исполнители', icon: 'MdEngineering', link: '/manage/executor' }),
 			createMenuItem({ name: 'Приказы', icon: 'MdDocumentScanner', link: '/manage/order' }),
-			createMenuItem({ name: 'Перечень товаров, работ и услуг', icon: 'MdListAlt', link: '/manage/enumProducts' }),
+			createMenuItem({ name: 'Перечень товаров, работ и услуг', icon: 'MdListAlt', link: '/manage/enumProduct' }),
+			test(),
 		])
 			.then(() => console.log(`Данные по умолчанию заведены`))
 			.catch((error) => console.log(error));
-
-		const one = await EnumProduct.create({ name: '111', num: '111' });
-		const two = await EnumProduct.create({ name: '222', num: '222' });
-		one.addChild(two);
 	} else console.log(`root уже существует`);
 };
 
