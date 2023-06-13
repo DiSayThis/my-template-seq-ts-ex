@@ -6,9 +6,6 @@ import Product from './product.js';
 import Order from './order.js';
 import Executor from './executor.js';
 
-Division.hasMany(User);
-User.belongsTo(Division);
-
 EnumProduct.belongsTo(EnumProduct, { as: 'Parent', foreignKey: 'parentId' });
 EnumProduct.hasMany(EnumProduct, { as: 'Child', foreignKey: 'parentId' });
 

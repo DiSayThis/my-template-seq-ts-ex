@@ -1,4 +1,3 @@
-import { GetOneByIdType } from 'api/dto/classificator.dto.js';
 import { Executor, ICountOutput } from '../../models/index.js';
 import { IExecutorOutput, IExecutorInput } from 'database/models/executor.js';
 import { queryCountParamsDTO } from 'api/dto/filters.dto.js';
@@ -31,8 +30,8 @@ export const create = async (payload: IExecutorInput): Promise<IExecutorOutput> 
 	return result;
 };
 
-export const getOne = async (payload: GetOneByIdType): Promise<IExecutorOutput> => {
-	const item = await Executor.findByPk(payload.id).catch((e) => {
+export const getOne = async (id: string): Promise<IExecutorOutput> => {
+	const item = await Executor.findByPk(id).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);
 	});
 	if (!item) {
@@ -41,8 +40,8 @@ export const getOne = async (payload: GetOneByIdType): Promise<IExecutorOutput> 
 	return item;
 };
 
-export const deleteOne = async (payload: GetOneByIdType): Promise<void> => {
-	await Executor.findByPk(payload.id)
+export const deleteOne = async (id: string): Promise<void> => {
+	await Executor.findByPk(id)
 		.then((result) => {
 			if (!result) throw new Error('Запись не найдена');
 			return result.destroy();
@@ -57,11 +56,7 @@ export const update = async (payload: IExecutorInput): Promise<IExecutorOutput> 
 		throw new Error('Ошибка бд: ' + e.message);
 	});
 	if (item) {
-		item.set({
-			name: payload.name,
-			shortName: payload.shortName,
-			description: payload.description,
-		});
+		item.set(payload);
 		await item.save().catch((e: Error) => {
 			throw new Error('Ошибка бд: ' + e.message);
 		});

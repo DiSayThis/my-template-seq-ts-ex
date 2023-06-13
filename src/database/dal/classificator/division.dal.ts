@@ -55,11 +55,7 @@ export const update = async (payload: IDivisionInput): Promise<IDivisionOutput> 
 		throw new Error('Ошибка бд: ' + e.message);
 	});
 	if (item) {
-		item?.set({
-			name: payload.name,
-			shortName: payload.shortName,
-			description: payload.description,
-		});
+		item?.set(payload);
 		await item.save().catch((e: Error) => {
 			throw new Error('Ошибка бд: ' + e.message);
 		});

@@ -25,10 +25,11 @@ import {
 	NonAttribute,
 } from 'sequelize';
 import sequelizeConnection from '../init.js';
+import Product from './product.js';
 
 class EnumProduct extends Model<InferAttributes<EnumProduct>, InferCreationAttributes<EnumProduct>> {
 	declare id: CreationOptional<string>;
-	declare num: string;
+	declare number: string;
 	declare name: string;
 	declare description: CreationOptional<string>;
 
@@ -54,10 +55,25 @@ class EnumProduct extends Model<InferAttributes<EnumProduct>, InferCreationAttri
 	declare countChildren: HasManyCountAssociationsMixin;
 	declare createChild: HasManyCreateAssociationMixin<EnumProduct, 'parentId'>;
 
+	declare getProducts: HasManyGetAssociationsMixin<Product>;
+	declare addProduct: HasManyAddAssociationMixin<Product, string>;
+	declare addProducts: HasManyAddAssociationsMixin<Product, string>;
+	declare setProducts: HasManySetAssociationsMixin<Product, string>;
+	declare removeProduct: HasManyRemoveAssociationMixin<Product, string>;
+	declare removeProducts: HasManyRemoveAssociationsMixin<Product, string>;
+	declare hasProduct: HasManyHasAssociationMixin<Product, string>;
+	declare hasProducts: HasManyHasAssociationsMixin<Product, string>;
+	declare countProducts: HasManyCountAssociationsMixin;
+	declare createProduct: HasManyCreateAssociationMixin<Product>;
+
 	declare children: NonAttribute<EnumProduct[]>;
+	declare parent: NonAttribute<EnumProduct>;
+	declare products?: NonAttribute<Product[]>;
 
 	declare static associations: {
 		children: Association<EnumProduct, EnumProduct>;
+		parent: Association<EnumProduct, EnumProduct>;
+		products: Association<EnumProduct, Product>;
 	};
 }
 export interface IEnumProductInput extends CreationAttributes<EnumProduct> {}
@@ -71,7 +87,7 @@ EnumProduct.init(
 			defaultValue: DataTypes.UUIDV4,
 			allowNull: false,
 		},
-		num: {
+		number: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},

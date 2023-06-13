@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import { IUserOutput } from 'database/models/user.js';
 
 export const getTokens = async (user: IUserOutput) => {
-	console.log(user);
 	const userDataToken = {
 		_id: user.id.toString(),
 		login: user.login,

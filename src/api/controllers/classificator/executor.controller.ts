@@ -1,8 +1,8 @@
-import { GetOneByIdType, UrlParams } from 'api/dto/classificator.dto.js';
-import { IClassificatorTable } from 'interfaces/classificator.interface.js';
-import * as executor from '../../../database/dal/classificator/executor.js';
-import { IExecutorInput, IExecutorOutput } from 'database/models/executor.js';
-import { generateExecutorWhere } from 'utils/generateWhere.js';
+import { UrlParams } from '../../../api/dto/classificator.dto.js';
+import * as executor from '../../../database/dal/classificator/executor.dal.js';
+import { generateExecutorWhere } from '../../../utils/generateWhere.js';
+import { IClassificatorTable } from '../../../interfaces/classificator.interface.js';
+import { IExecutorInput, IExecutorOutput } from '../../../database/models/executor.js';
 
 export const getAll = async (params: UrlParams): Promise<IClassificatorTable<IExecutorOutput>> => {
 	const { where, order } = generateExecutorWhere(params);
@@ -16,18 +16,18 @@ export const getAllCount = async (params: UrlParams): Promise<IClassificatorTabl
 	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 
-export const create = async (params: IExecutorInput): Promise<IExecutorOutput> => {
-	return await executor.create(params);
+export const create = async (payload: IExecutorInput): Promise<IExecutorOutput> => {
+	return await executor.create(payload);
 };
 
-export const getOne = async (params: GetOneByIdType): Promise<IExecutorOutput> => {
-	return await executor.getOne(params);
+export const getOne = async (id: string): Promise<IExecutorOutput> => {
+	return await executor.getOne(id);
 };
 
-export const deleteOne = async (params: GetOneByIdType): Promise<void> => {
-	return await executor.deleteOne(params);
+export const deleteOne = async (id: string): Promise<void> => {
+	return await executor.deleteOne(id);
 };
 
-export const update = async (params: IExecutorInput): Promise<IExecutorOutput> => {
-	return await executor.update(params);
+export const update = async (payload: IExecutorInput): Promise<IExecutorOutput> => {
+	return await executor.update(payload);
 };

@@ -1,8 +1,8 @@
-import { UrlParams } from 'api/dto/classificator.dto.js';
-import * as division from '../../../database/dal/classificator/division.js';
-import { IDivisionInput, IDivisionOutput } from 'database/models/divisions.js';
+import { UrlParams } from '../../../api/dto/classificator.dto.js';
+import * as division from '../../../database/dal/classificator/division.dal.js';
+import { IDivisionInput, IDivisionOutput } from '../../../database/models/divisions.js';
 import { generateDivisionWhere } from '../../../utils/generateWhere.js';
-import { IClassificatorTable } from 'interfaces/classificator.interface.js';
+import { IClassificatorTable } from '../../../interfaces/classificator.interface.js';
 
 export const getAll = async (params: UrlParams): Promise<IClassificatorTable<IDivisionOutput>> => {
 	const { where, order } = generateDivisionWhere(params);

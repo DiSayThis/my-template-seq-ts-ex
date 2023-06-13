@@ -1,11 +1,11 @@
 import { UrlParams } from 'api/dto/classificator.dto.js';
 import { Request, Response, Router } from 'express';
-import * as controller from '../controllers/classificator/division.controller.js';
-import Division from 'database/models/divisions.js';
+import * as controller from '../controllers/classificator/order.controller.js';
+import Order from 'database/models/order.js';
 import { CreationAttributes } from 'sequelize';
-const divisionRouter = Router();
+const orderRouter = Router();
 
-divisionRouter.get('/', async (req: Request, res: Response) => {
+orderRouter.get('/', async (req: Request, res: Response) => {
 	const params: UrlParams = req.query;
 	const results = await controller
 		.getAllCount(params)
@@ -17,15 +17,15 @@ divisionRouter.get('/', async (req: Request, res: Response) => {
 	return results;
 });
 
-divisionRouter.post('/create', async (req: Request, res: Response) => {
-	const payload: CreationAttributes<Division> = req.body;
+orderRouter.post('/create', async (req: Request, res: Response) => {
+	const payload: CreationAttributes<Order> = req.body;
 	return await controller
 		.create(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
 });
 
-divisionRouter.get('/:id', async (req: Request, res: Response) => {
+orderRouter.get('/:id', async (req: Request, res: Response) => {
 	const id = req.params.id;
 	if (!id) {
 		return res.status(403).send('Ошибка неверный id');
@@ -36,7 +36,7 @@ divisionRouter.get('/:id', async (req: Request, res: Response) => {
 			.catch((error: Error) => res.status(404).send(error.message));
 });
 
-divisionRouter.delete('/:id', async (req: Request, res: Response) => {
+orderRouter.delete('/:id', async (req: Request, res: Response) => {
 	const id = req.params.id;
 	if (!id) {
 		return res.status(403).send('Ошибка неверный id');
@@ -47,12 +47,12 @@ divisionRouter.delete('/:id', async (req: Request, res: Response) => {
 			.catch((error: Error) => res.status(404).send(error.message));
 });
 
-divisionRouter.put('/update', async (req: Request, res: Response) => {
-	const payload: CreationAttributes<Division> = req.body;
+orderRouter.put('/update', async (req: Request, res: Response) => {
+	const payload: CreationAttributes<Order> = req.body;
 	return await controller
 		.update(payload)
 		.then((result) => res.status(200).send(result))
 		.catch((error: Error) => res.status(403).send(error.message));
 });
 
-export default divisionRouter;
+export default orderRouter;
