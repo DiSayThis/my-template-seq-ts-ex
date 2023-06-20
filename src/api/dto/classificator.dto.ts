@@ -31,3 +31,16 @@ export type CreateDivisionDTO = {
 export type GetOneByIdType = {
 	id?: string;
 };
+
+export interface IOrderDTO {
+	id: string;
+	number: string;
+	signingDate: string;
+	endDate: string;
+	signingPerson: string;
+	description: string;
+	createdAt: string;
+	updatedAt: string;
+	deletedAt: string;
+	DivisionId: string;
+}

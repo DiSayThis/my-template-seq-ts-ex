@@ -12,7 +12,7 @@ export const getAll = async (queryParams: queryCountParamsDTO): Promise<ICountOu
 export const getAllCount = async (queryParams: queryCountParamsDTO): Promise<ICountOutput<IEnumProductOutput>> => {
 	const result = EnumProduct.findAndCountAll(queryParams).catch((e: Error) => {
 		throw new Error('Ошибка бд: ' + e.message);
-	});
+	}); //сделать родительский вывод
 	return result;
 };
 
