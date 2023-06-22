@@ -1,7 +1,7 @@
 import { UrlParams } from 'api/dto/classificator.dto.js';
 import * as enumProduct from '../../../database/dal/classificator/enumProduct.dal.js';
 import { generateEnumProductWhere } from '../../../utils/generateWhere.js';
-import { IClassificatorTable } from 'interfaces/classificator.interface.js';
+import { IClassificatorTable, IGetOneEnumProductPayload } from 'interfaces/classificator.interface.js';
 import { IEnumProductInput, IEnumProductOutput } from 'database/models/enumProduct.js';
 
 export const getAll = async (params: UrlParams): Promise<IClassificatorTable<IEnumProductOutput>> => {
@@ -16,7 +16,7 @@ export const getAllCount = async (params: UrlParams): Promise<IClassificatorTabl
 	return { data: data.rows, meta: { totalRowCount: data.count } };
 };
 
-export const create = async (payload: IEnumProductInput): Promise<IEnumProductOutput> => {
+export const create = async (payload: IGetOneEnumProductPayload): Promise<IEnumProductOutput> => {
 	return await enumProduct.create(payload);
 };
 

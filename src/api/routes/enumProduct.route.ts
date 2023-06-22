@@ -3,6 +3,7 @@ import { Request, Response, Router } from 'express';
 import * as controller from '../controllers/classificator/enumProduct.controller.js';
 import EnumProduct from '../../database/models/enumProduct.js';
 import { CreationAttributes } from 'sequelize';
+import { IGetOneEnumProductPayload } from 'interfaces/classificator.interface.js';
 const enumProductRouter = Router();
 
 enumProductRouter.get('/', async (req: Request, res: Response) => {
@@ -18,7 +19,8 @@ enumProductRouter.get('/', async (req: Request, res: Response) => {
 });
 
 enumProductRouter.post('/create', async (req: Request, res: Response) => {
-	const payload: CreationAttributes<EnumProduct> = req.body;
+	const payload: IGetOneEnumProductPayload = req.body;
+
 	return await controller
 		.create(payload)
 		.then((result) => res.status(200).send(result))
