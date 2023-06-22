@@ -27,7 +27,10 @@ import {
 import sequelizeConnection from '../init.js';
 import Product from './product.js';
 
-class EnumProduct extends Model<InferAttributes<EnumProduct>, InferCreationAttributes<EnumProduct>> {
+class EnumProduct extends Model<
+	InferAttributes<EnumProduct, { omit: 'children' | 'parent' | 'products' }>,
+	InferCreationAttributes<EnumProduct, { omit: 'children' | 'parent' | 'products' }>
+> {
 	declare id: CreationOptional<string>;
 	declare number: string;
 	declare name: string;
@@ -66,13 +69,13 @@ class EnumProduct extends Model<InferAttributes<EnumProduct>, InferCreationAttri
 	declare countProducts: HasManyCountAssociationsMixin;
 	declare createProduct: HasManyCreateAssociationMixin<Product>;
 
-	declare children: NonAttribute<EnumProduct[]>;
-	declare parent: NonAttribute<EnumProduct>;
+	declare children?: NonAttribute<EnumProduct[]>;
+	declare parent?: NonAttribute<EnumProduct>;
 	declare products?: NonAttribute<Product[]>;
 
 	declare static associations: {
-		children: Association<EnumProduct, EnumProduct>;
 		parent: Association<EnumProduct, EnumProduct>;
+		children: Association<EnumProduct, EnumProduct>;
 		products: Association<EnumProduct, Product>;
 	};
 }

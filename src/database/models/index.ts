@@ -6,8 +6,8 @@ import Product from './product.js';
 import Order from './order.js';
 import Executor from './executor.js';
 
-EnumProduct.belongsTo(EnumProduct, { as: 'Parent', foreignKey: 'parentId' });
-EnumProduct.hasMany(EnumProduct, { as: 'Child', foreignKey: 'parentId' });
+EnumProduct.belongsTo(EnumProduct, { as: 'parent', foreignKey: 'parentId' });
+EnumProduct.hasMany(EnumProduct, { as: 'children', foreignKey: 'parentId' });
 
 EnumProduct.hasMany(Product);
 Product.belongsTo(EnumProduct);
