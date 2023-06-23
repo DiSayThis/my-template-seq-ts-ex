@@ -15,7 +15,7 @@ export const getAllCount = async (queryParams: queryCountParamsDTO): Promise<ICo
 		(e: Error) => {
 			throw new Error('Ошибка бд: ' + e.message);
 		},
-	); //сделать родительский вывод
+	);
 	return result;
 };
 

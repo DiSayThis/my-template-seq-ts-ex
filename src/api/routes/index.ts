@@ -6,6 +6,7 @@ import divisionRouter from './division.route.js';
 import executorRouter from './executor.route.js';
 import orderRouter from './order.route.js';
 import enumProductRouter from './enumProduct.route.js';
+import productRouter from './product.route.js';
 
 export default (app: Express) => {
 	app.use('/api/auth', authRouter);
@@ -15,6 +16,7 @@ export default (app: Express) => {
 	app.use('/api/executor', executorRouter);
 	app.use('/api/order', orderRouter);
 	app.use('/api/enumProduct', enumProductRouter);
+	app.use('/api/product', productRouter);
 
 	app.use('/', expressStatic('public'));
 	return app;
