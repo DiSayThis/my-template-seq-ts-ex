@@ -9,19 +9,12 @@ export const getAll = async (queryParams: queryCountParamsDTO): Promise<ICountOu
 	});
 };
 
-export const getAllCount = async (queryParams: queryCountParamsDTO): Promise<ICountOutput<IEnumProductOutput>> => {
-	const result = EnumProduct.findAndCountAll({ ...queryParams, include: [EnumProduct.associations.parent] })
-		.then((res) => {
-			const a = JSON.stringify(res),
-				b: ICountOutput<EnumProduct> = JSON.parse(a);
-			b.rows.map((item) => {
-				console.log(item.parent);
-			});
-			return res;
-		})
-		.catch((e: Error) => {
+export const getAllCount = async (queryParams: queryCountParamsDTO): Promise<ICountOutput<EnumProduct>> => {
+	const result = EnumProduct.findAndCountAll({ ...queryParams, include: [EnumProduct.associations.parent] }).catch(
+		(e: Error) => {
 			throw new Error('Ошибка бд: ' + e.message);
-		}); //сделать родительский вывод
+		},
+	);
 	return result;
 };
 
